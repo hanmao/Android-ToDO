@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/classes-da6a3eba4e1193c8d05ebad9b1d3abdd960ea858.jar" />
+    </item>
+    <item
+        jar="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/classes-b684fe715dbfef0b6e94bd4fcea3cad8a8f21c11.jar" />
+    </item>
+    <item
+        jar="/Users/hamao/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/commons-io-2.4-12e52a3a048a4e8222a343f4b21b76fdb7389b01.jar" />
+    </item>
+    <item
+        jar="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-27aa1dceb7cca10ffbe27883e07f339da4aa6e96.jar" />
+    </item>
+    <item
+        jar="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/classes-a666ad3202896714b0c995242b3cd6a2712f4852.jar" />
+    </item>
+    <item
+        jar="/Users/hamao/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-7d8197881f7a24d4b5631ba211e86dc235c400e2.jar" />
+    </item>
+    <item
+        jar="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
+        <dex dex="/Users/hamao/AndroidProjects/ToDoApp/app/build/intermediates/pre-dexed/debug/classes-c9d1c3008901eb94fd243c02981ecdee4dd92261.jar" />
+    </item>
+
+</items>
