@@ -7,20 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
+import com.activeandroid.query.Select;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> items;
-    private ArrayAdapter<String> itemAdapter;
+    private ArrayList<Item> items;
+    private ItemsAdapter itemAdapter;
     private ListView lvItems;
     private final String POSITION = "position";
     private final int EDIT_TEXT_REQUEST_CODE = 1;
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         readItems();
-        populateArrayItems();
+        itemAdapter = new ItemsAdapter(this, items);;
         lvItems = (ListView)findViewById(R.id.lvItems);
         lvItems.setAdapter(itemAdapter);
         setupListViewListener();
@@ -39,25 +37,20 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View v){
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemAdapter.add(itemText);
+        Item item = new Item(itemText);
+        itemAdapter.add(item);
         etNewItem.setText("");
-        writeItems();
+        item.save();
     }
 
-    public void populateArrayItems(){
-        //items = new ArrayList<>();
-        //items.add("First Item");
-        //items.add("Second Item");
-        itemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-    }
 
     private void setupListViewListener(){
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapter, View item, int position, long id) {
-                items.remove(position);
+            public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
+                Item item = items.remove(position);
+                item.delete();
                 itemAdapter.notifyDataSetChanged();
-                writeItems();
                 return true;
 
             }
@@ -67,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                i.putExtra(EditItemActivity.ITEM, items.get(position));
+                i.putExtra(EditItemActivity.ITEM, items.get(position).itemName);
                 i.putExtra(POSITION, position);
                 startActivityForResult(i, EDIT_TEXT_REQUEST_CODE);
             }
@@ -75,24 +68,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readItems(){
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "store.txt");
         try{
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        }catch(IOException e){
-            items = new ArrayList<String>();
+            List<Item> dbItems = new Select().from(Item.class).execute();
+            items = new ArrayList<>(dbItems);
+        }catch(Exception e){
+            items = new ArrayList<Item>();
         }
     }
 
-    private void writeItems(){
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "store.txt");
-        try{
-            FileUtils.writeLines(todoFile, items);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            String item = items.get(position);
+            Item item = new Item(itemText);
 //            items.set(position, item);
-            items.set(position, itemText);
+            items.set(position, item);
             itemAdapter.notifyDataSetChanged();
-            writeItems();
+            item.save();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
