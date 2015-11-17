@@ -2,6 +2,7 @@ package com.example.hamao.todoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,16 +13,18 @@ import android.widget.ListView;
 
 import com.activeandroid.query.Select;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EditItemDialog.EditTodoItemDialogListener{
 
     private ArrayList<Item> items;
     private ItemsAdapter itemAdapter;
     private ListView lvItems;
-    private final String POSITION = "position";
-    private final int EDIT_TEXT_REQUEST_CODE = 1;
+    private Item selectedItem;
+    private final int REQUEST_CODE = 42;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View v){
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        Item item = new Item(itemText);
+        Item item = new Item(itemText, DateFormat.getDateInstance().format(new Date()));
         itemAdapter.add(item);
         etNewItem.setText("");
         item.save();
@@ -59,12 +62,16 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                i.putExtra(EditItemActivity.ITEM, items.get(position).itemName);
-                i.putExtra(POSITION, position);
-                startActivityForResult(i, EDIT_TEXT_REQUEST_CODE);
+                selectedItem = items.get(position);
+                showEditItemDialog();
             }
         });
+    }
+
+    private void showEditItemDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        EditItemDialog editTodoItemDialog = EditItemDialog.newInstance("Edit Item", selectedItem.itemName, selectedItem.dueDate);
+        editTodoItemDialog.show(fm, "edit_item");
     }
 
     private void readItems(){
@@ -76,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onFinishEditDialog(String inputText, String Date) {
+        selectedItem.itemName = inputText;
+        selectedItem.dueDate = Date;
+        selectedItem.save();
+        itemAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,20 +115,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == EDIT_TEXT_REQUEST_CODE) {
-            String itemText = data.getStringExtra(EditItemActivity.ITEM).trim();
-            int position = data.getIntExtra(POSITION, -1);
-            if ((itemText == null) || itemText.isEmpty() || (position == -1) || (position >= items.size())) {
-                return;
-            }
-
-            Item item = new Item(itemText);
-//            items.set(position, item);
-            items.set(position, item);
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             itemAdapter.notifyDataSetChanged();
-            item.save();
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

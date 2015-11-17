@@ -26,10 +26,12 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
         }
         // Lookup view for data population
-        TextView todoName = (TextView) convertView.findViewById(R.id.todoItemName);
+        TextView itemName = (TextView) convertView.findViewById(R.id.itemName);
+        TextView dueDate = (TextView) convertView.findViewById(R.id.dueDate);
 
         // Populate the data into the template view using the data object
-        todoName.setText(todoItem.itemName);
+        itemName.setText(todoItem.itemName);
+        dueDate.setText(todoItem.dueDate);
         // Return the completed view to render on screen
         return convertView;
     }

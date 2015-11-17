@@ -11,20 +11,21 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Item")
 public class Item extends Model {
-    @Column(name = "itemName")
+
+    @Column(name = "ItemName")
     public String itemName;
 
-    public Item(String itemName) {
+    @Column(name = "DueDate")
+    public String dueDate;
+
+    public Item(String itemName, String dueDate) {
         super();
         this.itemName = itemName;
+        this.dueDate = dueDate;
     }
 
     public Item() {
-        this("");
+        this("", "");
     }
 
-    @Override
-    public String toString() {
-        return itemName;
-    }
 }
